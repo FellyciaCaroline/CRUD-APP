@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react"
 import axios from "axios"
+import { NavLink } from "react-router-dom"
 
 export default function List(){
     const[prodi, setProdi] = useState([])
@@ -19,6 +20,12 @@ export default function List(){
     return(
         <>
             <h2>List Prodi</h2>
+
+            {/* tombol tambah prodi */}
+            <NavLink to="/prodi/create" className="btn btn-primary my-4">
+                Create
+            </NavLink>
+
             <table className="table">
                 <thead>
                     <tr>
@@ -28,7 +35,7 @@ export default function List(){
                 </thead>
                 <tbody>
                     {prodi.map((data)=> (
-                        <tr key={data.id} className="list-group-item">
+                        <tr key={data.id}>
                             <td>{data.nama}</td>
                             <td>{data.fakultas.nama}</td>
                         </tr>
