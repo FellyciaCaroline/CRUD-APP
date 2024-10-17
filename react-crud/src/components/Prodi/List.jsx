@@ -31,13 +31,19 @@ export default function List(){
                     <tr>
                         <th scope='col'>Nama Prodi</th>
                         <th scope='col'>Nama Fakultas</th>
+                        <th scope='col'>#</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {prodi.map((data)=> (
-                        <tr key={data.id}>
-                            <td>{data.nama}</td>
-                            <td>{data.fakultas.nama}</td>
+                    {prodi.map((f)=> (
+                        <tr key={f.id}>
+                            <td>{f.nama}</td>
+                            <td>{f.fakultas.nama}</td>
+                            <td>
+                                <NavLink to={`/prodi/edit/${f.id}`} className="btn btn-warning">
+                                    Edit
+                                </NavLink>
+                            </td>
                         </tr>
                 ))}
                 </tbody>

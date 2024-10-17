@@ -26,14 +26,16 @@ export default function List(){
                 Create
             </NavLink>
 
-            {/* daftar fakultas */}
-            <table className="table">
-
-            </table>
-
             <ul className="list-group">
-                {fakultas.map((data)=> (
-                    <li key={data.id} className="list-group-item">{data.nama}
+                {fakultas.map((f) => (
+                    <li
+                        key={f.id}
+                        className="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                        <span>{f.nama}</span>
+                        <NavLink to={`/fakultas/edit/${f.id}`} className="btn btn-warning">
+                            Edit
+                        </NavLink>
                     </li>
                 ))}
             </ul>
