@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import axios from "axios"
 import { NavLink } from "react-router-dom"
+import Swal from "sweetalert2";
 
 export default function List(){
     const[fakultas, setFakultas] = useState([])
@@ -16,6 +17,33 @@ export default function List(){
             console.log('Error : ',error);
         })
     }, [])
+
+    const handleDelete = (id, nama) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You won't be able to revert this! Fakultas: ${nama}`,
+            icon: "warning",
+            showCancelButton: true, confirmButtonColor: "#3085d6", cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if(result.isConfirmed){
+                axios
+                    .delete(`https://project-apiif-3-b.vercel.app/api/api/fakultas/${id}`)
+                    .then((response) =>{
+                        setFakultas(fakultas.filter((f) => f.id !== id));
+                        Swal.fire("Deleted!", "Your data has been deleted.", "success");
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting data:", error);
+                        Swal.fire(
+                            "Error",
+                            "There was an issue deleting the data.",
+                            "error"
+                        );
+                    });
+            }
+        });
+    };
 
     return(
         <>
@@ -33,9 +61,15 @@ export default function List(){
                         className="list-group-item d-flex justify-content-between align-items-center"
                     >
                         <span>{f.nama}</span>
-                        <NavLink to={`/fakultas/edit/${f.id}`} className="btn btn-warning">
+                        <div className="btn-group" role="group" aria-label="Action buttons">
+                            <NavLink to={`/fakultas/edit/${f.id}`} className="btn btn-warning">
                             Edit
-                        </NavLink>
+                            </NavLink>
+                            <button onClick={() => handleDelete(f.id, f.nama)} className="btn btn-danger">
+                                Delete
+                            </button>
+                        </div>
+                        
                     </li>
                 ))}
             </ul>
